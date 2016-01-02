@@ -16,7 +16,7 @@
     </div>
     <div id="container">
 
-      <h1>Minimum viable view library (WIP)</h1>
+      <h1>Minimum Viable View Library (WIP)</h1>
 
       <p><i>Posted by <a href="http://www.pakastin.fi" target="_blank">Juha Lindstedt</a> on January xx, 2016</i></p>
 
@@ -27,17 +27,20 @@
       <p>Creating HTML elements is really easy with just plain JavaScript:</p>
 
       <pre><code class="javascript">
-// create &lt;h1&gt;
-var el = document.createElement('h1');
+// create elements
+var h1 = document.createElement('h1');
+var p = document.createElement('p');
 
-// add text &lt;h1&gt;Hello world!&lt;/h1&gt;
-el.textContent = 'Hello world!';
+// add text
+h1.textContent = 'Hello world!';
+p.textContent = 'Lorem ipsum dolor sit amet';
 
 // add to DOM
-document.body.appendChild(el);
+document.body.appendChild(h1);
+document.body.appendChild(p);
 
 // result
-// &lt;body&gt;&lt;h1&gt;Hello world!&lt;/h1&gt;&lt;/body&gt;
+// &lt;body&gt;&lt;h1&gt;Hello world!&lt;/h1&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;/p&gt;&lt;/body&gt;
 
       </code></pre>
 
@@ -45,7 +48,7 @@ document.body.appendChild(el);
 
       <h3>Helper</h3>
 
-      <p>Let's make it even easier with a little helper function:</p>
+      <p>We'll make it even easier with a little helper function:</p>
 
       <pre><code class="javascript">
 function el (tagName, attributes) {
@@ -66,10 +69,13 @@ function el (tagName, attributes) {
       <p>Couldn't be smoother to use:</p>
 
       <pre><code class="javascript">
-var h1 = el('h1', {
-  textContent: 'Hello world!'
-});
+// create elements
+var h1 = el('h1', { textContent: 'Hello world!' });
+var p = el('p', { textContent: 'Lorem ipsum dolor sit amet' });
+
+// add to DOM
 document.body.appendChild(h1);
+document.body.appendChild(p);
 
       </code></pre>
 
@@ -93,11 +99,12 @@ function View (options) {
       this[key] = options[key];
     }
   }
+  // let's get back to this later
   if (this.init) this.init();
 }
 
 </code></pre>
-<p>Let's add child mounting methods:</p>
+<p>..add child mounting methods:</p>
 <pre><code class="javascript">
 View.prototype.addChild = function (childView) {
   if (this.mount) this.mount();
@@ -115,7 +122,7 @@ View.prototype.addBefore = function (childView, before) {
 
 </code></pre>
 
-<p>Let's try it out:</p>
+<p>Time to try it out!</p>
 
 <pre><code class="javascript">
 var body = new View({
@@ -128,7 +135,14 @@ var h1 = new View({
   }]
 });
 
+var p = new View({
+  el: ['p', {
+    textContent: 'Lorem ipsum dolor sit amet'
+  }]
+});
+
 body.addChild(h1);
+body.addChild(p);
 
 </code></pre>
 
@@ -158,9 +172,41 @@ View.prototype.setChildren = function (views) {
       }
     }
   }
+
+  // remove any DOM nodes left out
+  while (traverse) {
+    var next = traverse.nextSibling;
+    this.el.removeChild(traverse);
+    traverse = next;
+  }
 }
       </code></pre>
 
+      <p>We can try it by changing the previous example a bit:<br>
+        <i>(Notice that script-tag gets removed when running body.setChildren)</i></p>
+
+      <pre><code class="javascript">
+var body = new View({
+  el: document.body
+});
+
+var h1 = new View({
+  el: ['h1', {
+    textContent: 'Hello world!'
+  }]
+});
+
+var p = new View({
+  el: ['p', {
+    textContent: 'Lorem ipsum dolor sit amet'
+  }]
+});
+
+body.setChildren([h1, p]);
+
+      </code></pre>
+
+      <script>codeOutput(1, 3, 4, 6, 7);</script>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
     <script>
