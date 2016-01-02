@@ -4,6 +4,7 @@ body {
   margin: 0;
   padding: 0;
   color: #333;
+  padding-bottom: 5rem;
 }
 #container {
   max-width: 40rem;
