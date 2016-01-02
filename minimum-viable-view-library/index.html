@@ -24,7 +24,7 @@
 
       <h3>Basics</h3>
 
-      <p>Creating HTML elements is really easy with just plain JavaScript:</p>
+      <p>Creating HTML elements is quite easy with plain JavaScript:</p>
 
       <pre><code class="javascript">
 // create elements
@@ -87,11 +87,13 @@ document.body.appendChild(p);
       <p>Now let's get to business and define a View:</p>
 
       <pre><code class="javascript">
-function View (options) {
+function View (options, data) {
   for (var key in options) {
     if (key === 'el') {
       // little trick here to pass the parameters to the el helper
-      if (options.el instanceof Array) {
+      if (typeof options.el === 'string') {
+        this.el = el(options.el);
+      } else if (options.el instanceof Array) {
         this.el = el(options.el[0], options.el[1]);
       } else {
         this.el = options.el;
@@ -101,7 +103,7 @@ function View (options) {
     }
   }
   // let's get back to this later
-  if (this.init) this.init();
+  if (this.init) this.init(data);
 }
 
 </code></pre>
@@ -128,20 +130,14 @@ View.prototype.addBefore = function (childView, before) {
 <p>Time to try it out!</p>
 
 <pre><code class="javascript">
-var body = new View({
-  el: document.body
-});
+var body = new View({ el: document.body });
 
 var h1 = new View({
-  el: ['h1', {
-    textContent: 'Hello world!'
-  }]
+  el: ['h1', { textContent: 'Hello world!' }]
 });
 
 var p = new View({
-  el: ['p', {
-    textContent: 'Lorem ipsum dolor sit amet'
-  }]
+  el: ['p', { textContent: 'Lorem ipsum dolor sit amet' }]
 });
 
 body.addChild(h1);
@@ -212,6 +208,53 @@ body.setChildren([h1, p]);
       </code></pre>
 
       <script>codeOutput(1, 3, 4, 6, 7);</script>
+
+      <p>Let's add extending helper:</p>
+
+      <pre><code class="javascript">
+
+View.extend = function (options) {
+  function ExtendedView (data) {
+    View.call(this, options, data);
+  }
+
+  ExtendedView.prototype = Object.create(View.prototype);
+  ExtendedView.prototype.constructor = ExtendedView;
+
+  return ExtendedView;
+}
+
+      </code></pre>
+
+      <p>Now we can start building components!</p>
+
+      <pre><code class="javascript">
+var body = new View({
+  el: document.body
+});
+
+var H1 = View.extend({
+  el: 'h1',
+  init: function (data) {
+    this.el.textContent = data;
+  }
+});
+
+var P = View.extend({
+  el: 'p',
+  init: function (data) {
+    this.el.textContent = data;
+  }
+});
+
+var h1 = new H1('Hello world!');
+var p = new P('Lorem ipsum dolor sit amet');
+
+body.setChildren([h1, p]);
+
+      </code></pre>
+
+      <script>codeOutput(1, 3, 4, 6, 8, 9);</script>
 
       <h3>More coming soon</h3>
 
