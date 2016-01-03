@@ -22,19 +22,19 @@
         </div>
       </div>
 
-      <h1>Minimum Viable View Library (part&nbsp;1: the View)</h1>
+      <h1>Minimum viable view library, part&nbsp;I</h1>
 
-      <p><i>Posted by <a href="http://www.pakastin.fi" target="_blank">Juha Lindstedt</a> on January xx, 2016</i></p>
+      <p><i>Posted by <a href="http://www.pakastin.fi" target="_blank">Juha Lindstedt</a> on January 3rd, 2016</i></p>
 
-      <p>I'm going to teach you how to build a fully capable and extremely performant view library, weighting just few kilobytes. We will begin by building a View class in this first post.</p>
+      <p>I'm going to teach you how to build a fully capable and extremely performant view library, weighting just few kilobytes. We will begin by focusing on creating, reordering and removing DOM elements in this first post.</p>
 
       <p>Everything you learn here are based on my <a href="https://frzr.js.org" target="_blank">FRZR view library</a>. So if you don't want to create your own, just grab FRZR – it's free and fun. Whatever you decide, it could be good to go through these posts to learn how to use it well – or just to learn more about JavaScript.</p>
 
-      <p>Ok, so let's start!</p>
+      <p>Let's start!</p>
 
       <h2>Creating elements</h2>
 
-      <p>Before we're going to build the View class, let's see how HTML elements are created in Vanilla JavaScript.</p>
+      <p>Before we're going to build anything, let's study how HTML elements are created in Vanilla JavaScript.</p>
 
       <h3>Basics</h3>
 
@@ -98,7 +98,7 @@ document.body.appendChild(p);
       <h2>View</h2>
       <h3>Constructor</h3>
 
-      <p>Now let's get to business and define the View constructor:</p>
+      <p>Now we'll get to business and define a View constructor:</p>
 
       <pre><code class="javascript">
 function View (options, data) {
@@ -125,15 +125,11 @@ function View (options, data) {
 <p>Then add some child mounting methods:</p>
 <pre><code class="javascript">
 View.prototype.addChild = function (childView) {
-  if (this.mount) this.mount();
-
   this.el.appendChild(childView.el);
   childView.parentView = this;
 };
 
 View.prototype.addBefore = function (childView, before) {
-  if (this.mount) this.mount();
-
   this.el.insertBefore(childView.el, before.el || before);
   childView.parentView = this;
 };
@@ -141,7 +137,7 @@ View.prototype.addBefore = function (childView, before) {
 </code></pre>
 
 <h3>Usage</h3>
-<p>Time to try it out!</p>
+<p>Let's try it out!</p>
 
 <pre><code class="javascript">
 var body = new View({ el: document.body });
@@ -230,7 +226,7 @@ setInterval(function () {
 
       <h3>Extending helper</h3>
 
-      <p>Let's add extending helper:</p>
+      <p>Next add an extending helper:</p>
 
       <pre><code class="javascript">
 
@@ -311,9 +307,9 @@ setInterval(function () {
 
       <script>codeOutput(1, 3, 4, 6, 8, 9);</script>
 
-      <h3>More coming soon</h3>
+      <h3>Next episode</h3>
 
-      <p>Work in progress...</p>
+      <p>In the next episode we'll learn how to update the DOM elements efficiently.</p>
 
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
