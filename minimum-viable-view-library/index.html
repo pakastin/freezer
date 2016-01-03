@@ -32,8 +32,8 @@ var h1 = document.createElement('h1');
 var p = document.createElement('p');
 
 // add text
-h1.textContent = 'Hello world!';
-p.textContent = 'Lorem ipsum dolor sit amet';
+h1.textContent = 'Hello world';
+p.textContent = 'Vanilla JavaScript rocks!';
 
 // add to DOM
 document.body.appendChild(h1);
@@ -70,8 +70,8 @@ function el (tagName, attributes) {
 
       <pre><code class="javascript">
 // create elements
-var h1 = el('h1', { textContent: 'Hello world!' });
-var p = el('p', { textContent: 'Lorem ipsum dolor sit amet' });
+var h1 = el('h1', { textContent: 'Hello WRLD!' });
+var p = el('p', { textContent: 'This is a bit easier though..' });
 
 // add to DOM
 document.body.appendChild(h1);
@@ -108,7 +108,7 @@ function View (options, data) {
 
 </code></pre>
 <h3>Mounting children</h3>
-<p>..add child mounting methods:</p>
+<p>Then add some child mounting methods:</p>
 <pre><code class="javascript">
 View.prototype.addChild = function (childView) {
   if (this.mount) this.mount();
@@ -133,11 +133,11 @@ View.prototype.addBefore = function (childView, before) {
 var body = new View({ el: document.body });
 
 var h1 = new View({
-  el: ['h1', { textContent: 'Hello world!' }]
+  el: ['h1', { textContent: 'Hello View!' }]
 });
 
 var p = new View({
-  el: ['p', { textContent: 'Lorem ipsum dolor sit amet' }]
+  el: ['p', { innerHTML: "Works like the train toilet.&lt;br&gt;&lt;i&gt;(Finnish proverb)&lt;/i&gt;" }]
 });
 
 body.addChild(h1);
@@ -158,7 +158,7 @@ View.prototype.setChildren = function (views) {
   // go through given views (if any)
   if (views) {
     for (var i = 0; i < views.length; i++) {
-      if (views[i] === traverse) {
+      if (views[i].el === traverse) {
         // element already in place, continue to next sibling
         traverse = traverse.nextSibling;
         continue;
@@ -173,6 +173,8 @@ View.prototype.setChildren = function (views) {
     }
   }
 
+  console.log(traverse);
+
   // remove any DOM nodes left out
   while (traverse) {
     var next = traverse.nextSibling;
@@ -183,15 +185,26 @@ View.prototype.setChildren = function (views) {
       </code></pre>
 
       <h3>Example</h3>
-      <p>We can try it by changing the previous example a bit:<br>
-        <i>(Notice that script-tag gets removed when running body.setChildren)</i></p>
+      <p>Let's create a list of Views and start to shuffle:<br>
 
       <pre><code class="javascript">
 var body = new View({ el: document.body });
-var h1 = new View({ el: ['h1', { textContent: 'Hello world!' }] });
-var p = new View({ el: ['p', { textContent: 'Lorem ipsum dolor sit amet' }] });
+var ul = new View({ el: 'ul' });
+var views = new Array(10);
 
-body.setChildren([h1, p]);
+for (var i = 0; i < views.length; i++) {
+  views[i] = new View({
+    el: ['li', { textContent: 'Item ' + i }]
+  });
+}
+ul.setChildren(views);
+
+body.addChild(ul);
+
+setInterval(function () {
+  views.sort(function () {return Math.random() * 2 - 1});
+  ul.setChildren(views);
+}, 1000);
 
       </code></pre>
 
@@ -221,28 +234,32 @@ View.extend = function (options) {
       <p>Now we can start building components!</p>
 
       <pre><code class="javascript">
-var body = new View({
-  el: document.body
-});
+var body = new View({ el: document.body });
+var ul = new View({ el: 'ul' });
+var views = new Array(100);
 
-var H1 = View.extend({
-  el: 'h1',
-  init: function (data) {
+var Li = View.extend({
+  el: 'li',
+  init: function (data) {
     this.el.textContent = data;
   }
-});
+})
 
-var P = View.extend({
-  el: 'p',
-  init: function (data) {
-    this.el.textContent = data;
-  }
-});
+for (var i = 0; i < views.length; i++) {
+  views[i] = new Li('Item ' + i);
+}
+ul.setChildren(views);
 
-var h1 = new H1('Hello world!');
-var p = new P('Lorem ipsum dolor sit amet');
+body.addChild(ul);
 
-body.setChildren([h1, p]);
+tick();
+
+function tick () {
+  requestAnimationFrame(tick);
+
+  views.unshift(views.pop());
+  ul.setChildren(views);
+};
 
       </code></pre>
 
