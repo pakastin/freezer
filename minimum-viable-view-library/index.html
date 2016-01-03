@@ -21,11 +21,13 @@
 
       <p><i>Posted by <a href="http://www.pakastin.fi" target="_blank">Juha Lindstedt</a> on January xx, 2016</i></p>
 
-      <p>I'm going to teach you how to build a fully capable and extremely performant view library weighting just few kilobytes. We will begin by creating a View in this first post.</p>
+      <p>I'm going to teach you how to build a fully capable and extremely performant view library, weighting just few kilobytes. We will begin by building a View class in this first post.</p>
+
+      <p>Everything you learn here are based on my <a href="https://frzr.js.org" target="_blank">FRZR view library</a>. So if you don't want to create your own, just grab FRZR – it's free and fun. Whatever you decide, it could be good go through these posts to learn how to use it well (or just learn more about JavaScript), so let's start!</p>
 
       <h2>Creating elements</h2>
 
-      <p>Before we're going to build a View, let's see how HTML elements are created in Vanilla JavaScript.</p>
+      <p>Before we're going to build the View class, let's see how HTML elements are created in Vanilla JavaScript.</p>
 
       <h3>Basics</h3>
 
@@ -45,7 +47,7 @@ document.body.appendChild(h1);
 document.body.appendChild(p);
 
 // result
-// &lt;body&gt;&lt;h1&gt;Hello world!&lt;/h1&gt;&lt;p&gt;Lorem ipsum dolor sit amet&lt;/p&gt;&lt;/body&gt;
+// &lt;body&gt;&lt;h1&gt;Hello world&lt;/h1&gt;&lt;p&gt;Vanilla JavaScript rocks!&lt;/p&gt;&lt;/body&gt;
 
       </code></pre>
 
@@ -76,7 +78,7 @@ function el (tagName, attributes) {
       <pre><code class="javascript">
 // create elements
 var h1 = el('h1', { textContent: 'Hello WRLD!' });
-var p = el('p', { textContent: 'This is a bit easier..' });
+var p = el('p', { innerHTML: "Works like the train toilet.&lt;br&gt;&lt;i&gt;(Finnish proverb)&lt;/i&gt;" });
 
 // add to DOM
 document.body.appendChild(h1);
@@ -142,11 +144,16 @@ var h1 = new View({
 });
 
 var p = new View({
-  el: ['p', { innerHTML: "Works like the train toilet.&lt;br&gt;&lt;i&gt;(Finnish proverb)&lt;/i&gt;" }]
+  el: ['p', { textContent: 'Powered by: ' }]
+});
+
+var a = new View({
+  el: ['a', { href: 'https://frzr.js.org', target: '_blank', textContent: 'FRZR' }]
 });
 
 body.addChild(h1);
 body.addChild(p);
+p.addChild(a);
 
 </code></pre>
 
@@ -193,7 +200,7 @@ View.prototype.setChildren = function (views) {
       <pre><code class="javascript">
 var body = new View({ el: document.body });
 var ul = new View({ el: 'ul' });
-var views = new Array(10);
+var views = new Array(25);
 
 for (var i = 0; i < views.length; i++) {
   views[i] = new View({
@@ -249,7 +256,7 @@ var body = new View({ el: document.body });
 var ul = new View({ el: 'ul' });
 
 // let's create list of views
-var views = new Array(100);
+var views = new Array(1000);
 
 for (var i = 0; i < views.length; i++) {
   views[i] = new Li('Item ' + i);
