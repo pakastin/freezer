@@ -21,6 +21,9 @@ body {
   background-color: #1e88e5;
   color: #fff;
 }
+#logo a {
+  display: block;
+}
 #logo p {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: .75rem;
@@ -120,6 +123,7 @@ pre + a {
   border: 1px solid #1e88e5;
   font-family: Source Sans Pro, sans-serif;
   border-radius: .1875rem;
+  cursor: pointer;
 }
 pre + a:hover {
   background-color: #1e88e5;
