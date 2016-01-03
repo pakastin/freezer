@@ -102,7 +102,7 @@ function View (options, data) {
       this[key] = options[key];
     }
   }
-  // let's get back to this later
+  // let's get back to this line later
   if (this.init) this.init(data);
 }
 
@@ -187,27 +187,17 @@ View.prototype.setChildren = function (views) {
         <i>(Notice that script-tag gets removed when running body.setChildren)</i></p>
 
       <pre><code class="javascript">
-var body = new View({
-  el: document.body
-});
-
-var h1 = new View({
-  el: ['h1', {
-    textContent: 'Hello world!'
-  }]
-});
-
-var p = new View({
-  el: ['p', {
-    textContent: 'Lorem ipsum dolor sit amet'
-  }]
-});
+var body = new View({ el: document.body });
+var h1 = new View({ el: ['h1', { textContent: 'Hello world!' }] });
+var p = new View({ el: ['p', { textContent: 'Lorem ipsum dolor sit amet' }] });
 
 body.setChildren([h1, p]);
 
       </code></pre>
 
       <script>codeOutput(1, 3, 4, 6, 7);</script>
+
+      <h3>Extending helper</h3>
 
       <p>Let's add extending helper:</p>
 
@@ -225,6 +215,8 @@ View.extend = function (options) {
 }
 
       </code></pre>
+
+      <h3>Example</h3>
 
       <p>Now we can start building components!</p>
 
