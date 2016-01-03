@@ -1,3 +1,18 @@
+var codePreview = document.createElement('div');
+var iframe = document.createElement('iframe');
+var close = document.createElement('i');
+
+close.classList.add('fa');
+close.classList.add('fa-times');
+
+close.addEventListener('click', function () {
+  document.body.removeChild(codePreview);
+});
+
+codePreview.id = 'codepreview';
+codePreview.appendChild(iframe);
+codePreview.appendChild(close);
+
 function codeOutput () {
   var $container = document.getElementById('container');
   var html = [
@@ -31,8 +46,11 @@ function codeOutput () {
   );
 
   var a = document.createElement('a');
-  a.href = 'data:text/html;charset=utf-8;base64,' + b64EncodeUnicode(html.join('\n'));
-  a.target = '_blank';
+
+  a.onclick = function () {
+    iframe.src = 'data:text/html;charset=utf-8;base64,' + b64EncodeUnicode(html.join('\n'));
+    document.body.appendChild(codePreview);
+  }
   a.textContent = 'Run result';
   container.insertBefore(a, afterEl.nextSibling);
 
