@@ -95,6 +95,12 @@ iframe {
   border: 0;
   box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
 }
+.github-fork-ribbon {
+  background-color: #333;
+}
+.github-fork-ribbon:hover {
+  background-color: #111;
+}
 @media (min-width: 1280px) {
   html {
     font-size: 120%;

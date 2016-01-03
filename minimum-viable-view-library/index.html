@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>The Freezer - JavaScript blog</title>
-    <link rel="stylesheet" href="../css/main.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,600|Source+Serif+Pro|Source+Code+Pro:400,600' rel='stylesheet' type='text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css" />
+    <link rel="stylesheet" href="../css/main.css">
   </head>
   <body>
     <script src="../js/codeoutput.js"></script>
@@ -16,6 +16,11 @@
       <p>JavaScript blog</p>
     </div>
     <div id="container">
+      <div class="github-fork-ribbon-wrapper right">
+        <div class="github-fork-ribbon">
+            <a href="https://github.com/pakastin">Find me on GitHub</a>
+        </div>
+      </div>
 
       <h1>Minimum Viable View Library (part 1: the View)</h1>
 
@@ -23,7 +28,9 @@
 
       <p>I'm going to teach you how to build a fully capable and extremely performant view library, weighting just few kilobytes. We will begin by building a View class in this first post.</p>
 
-      <p>Everything you learn here are based on my <a href="https://frzr.js.org" target="_blank">FRZR view library</a>. So if you don't want to create your own, just grab FRZR – it's free and fun. Whatever you decide, it could be good go through these posts to learn how to use it well (or just learn more about JavaScript), so let's start!</p>
+      <p>Everything you learn here are based on my <a href="https://frzr.js.org" target="_blank">FRZR view library</a>. So if you don't want to create your own, just grab FRZR – it's free and fun. Whatever you decide, it could be good to go through these posts to learn how to use it well – or just to learn more about JavaScript.</p>
+
+      <p>Ok, so let's start!</p>
 
       <h2>Creating elements</h2>
 
@@ -91,7 +98,7 @@ document.body.appendChild(p);
       <h2>View</h2>
       <h3>Constructor</h3>
 
-      <p>Now let's get to business and define a View:</p>
+      <p>Now let's get to business and define the View constructor:</p>
 
       <pre><code class="javascript">
 function View (options, data) {
@@ -147,6 +154,7 @@ var p = new View({
   el: ['p', { textContent: 'Powered by: ' }]
 });
 
+// shameless advertisement
 var a = new View({
   el: ['a', { href: 'https://frzr.js.org', target: '_blank', textContent: 'FRZR' }]
 });
