@@ -74,9 +74,18 @@ pre {
   background-color: #eee;
 }
 pre + a {
-  display: block;
-  padding-left: 1rem;
+  display: inline-block;
+  margin: 1rem;
   margin-bottom: 2.5rem;
+  padding: .75rem;
+  border: 1px solid #1e88e5;
+  font-family: Source Sans Pro, sans-serif;
+  border-radius: .1875rem;
+}
+pre + a:hover {
+  background-color: #1e88e5;
+  text-decoration: none;
+  color: #fff;
 }
 iframe {
   display: block;
