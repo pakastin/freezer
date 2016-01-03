@@ -176,8 +176,6 @@ View.prototype.setChildren = function (views) {
     }
   }
 
-  console.log(traverse);
-
   // remove any DOM nodes left out
   while (traverse) {
     var next = traverse.nextSibling;
@@ -205,9 +203,9 @@ ul.setChildren(views);
 body.addChild(ul);
 
 setInterval(function () {
-  views.sort(function () {return Math.random() * 2 - 1});
+  views.sort(function () { return Math.random() * 2 - 1; });
   ul.setChildren(views);
-}, 1000);
+}, 250);
 
       </code></pre>
 
@@ -237,10 +235,7 @@ View.extend = function (options) {
       <p>Now we can start building components!</p>
 
       <pre><code class="javascript">
-var body = new View({ el: document.body });
-var ul = new View({ el: 'ul' });
-var views = new Array(100);
-
+// our list element component
 var Li = View.extend({
   el: 'li',
   init: function (data) {
@@ -248,21 +243,52 @@ var Li = View.extend({
   }
 })
 
+var body = new View({ el: document.body });
+var ul = new View({ el: 'ul' });
+
+// let's create list of views
+var views = new Array(100);
+
 for (var i = 0; i < views.length; i++) {
   views[i] = new Li('Item ' + i);
 }
+
+// add to DOM
 ul.setChildren(views);
 
+// let's see how fast we're running
+var fps = new View({ el : 'p' });
+
+body.addChild(fps);
 body.addChild(ul);
+
+// average fps calculation starts..
+
+var lastFrame = Date.now();
+var frameTimeTotal = 0;
+var frameTimeCount = 0;
 
 tick();
 
 function tick () {
   requestAnimationFrame(tick);
+  var now = Date.now();
 
+  // take last element and move to first
   views.unshift(views.pop());
+
+  // update views
   ul.setChildren(views);
+
+  frameTimeTotal += (now - lastFrame);
+  frameTimeCount++;
+
+  lastFrame = now;
 };
+
+setInterval(function () {
+  fps.el.textContent = 'Running at ' + (1000 / (frameTimeTotal / frameTimeCount)).toFixed(2) + ' fps';
+}, 1000);
 
       </code></pre>
 
