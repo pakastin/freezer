@@ -130,12 +130,12 @@ function View (options, data) {
 <pre><code class="javascript">
 View.prototype.addChild = function (childView) {
   this.el.appendChild(childView.el);
-  childView.parentView = this;
+  childView.parent = this;
 };
 
 View.prototype.addBefore = function (childView, before) {
   this.el.insertBefore(childView.el, before.el || before);
-  childView.parentView = this;
+  childView.parent = this;
 };
 
 </code></pre>
