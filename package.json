@@ -1,6 +1,5 @@
 {
-  "name": "the-freezer",
-  "version": "0.0.1",
+  "name": "freezer",
   "description": "The Freezer - JavaScript blog",
   "main": "index.js",
   "scripts": {
