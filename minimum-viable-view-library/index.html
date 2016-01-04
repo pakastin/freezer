@@ -28,7 +28,7 @@
 
       <p><i>Posted by <a href="http://www.pakastin.fi" target="_blank">Juha Lindstedt</a> on January 4th, 2016</i></p>
 
-      <p>I'm going to show you step by step how I built a fully capable and extremely performant view library, weighting just couple of kilobytes. I will also prove that DOM is not slow and you don't need a virtual dom or dirty checking to make it "fast". In reality, they will both make it a whole lot slower.
+      <p>I'm going to show you step by step how I built a fully capable and extremely performant view library, weighting just couple of kilobytes. I will also prove that DOM is actually quite fast, if used properly. This view library doesn't care if the data is mutable or immutable - both will work. You can also choose to reorder DOM elements by key or just replace the contents. But the main idea is to understand 100 % how everything work under the hood.</p>
 
       <p>These techniques are based on my <a href="https://frzr.js.org" target="_blank">FRZR view library</a> (simplified a bit). Check it out if you want to get started immediately, but I still encourage you to follow through these posts – I promise there's something new to learn.</p>
 
